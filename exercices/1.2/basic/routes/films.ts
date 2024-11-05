@@ -7,7 +7,7 @@ const router = Router();
 // Chemin vers le fichier JSON si nécessaire, sinon tu peux l'ignorer
 // const jsonDbPath = path.join(__dirname, "/../data/pizzas.json");
 
-const defaultPizzas: Film[] = [
+const Films_liste: Film[] = [
   {
     id: 1,
     title: "Inception",
@@ -44,7 +44,8 @@ const defaultPizzas: Film[] = [
    GET /films
 */
 router.get("/", (_req, res) => {
-  return res.json(defaultPizzas); // Renvoie simplement la liste des films
+  return res.json(Films_liste); // Renvoie simplement la liste des films
 });
 
 export default router;
+  
