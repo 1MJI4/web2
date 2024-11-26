@@ -59,14 +59,24 @@ const Films_liste: Film[] = [
    GET /films
 */
 router.get("/", (_req, res) => {
-  if (_req.query["minimum-duration"] === undefined) {
+  if (_req.query["minimum-duration"] === undefined&&_req.query["titre"]===undefined) {
     return res.send(Films_liste);
   }
   const minduration = Number(_req.query["minimum-duration"]);//stock la valeur que l'on va donner dans la barre de recherche ex /films?minimum-duration=120 stock 120
+  const nom_film=String(_req.query["titre"]);
+  const nomFilm = Films_liste.filter((film) => film.title.toLowerCase().includes(nom_film.toLowerCase()));
   if(isNaN(minduration)||minduration<=0)
     res.json("duree impossible");
   const filtrefilm=Films_liste.filter((film)=>film.duration>=minduration);
   return res.json(filtrefilm); // Renvoie simplement la liste des films filtrer
+});
+router.delete("/:id",(_req,res)=>{
+const id=Number(_req.params.id);//params sert à recuperer la variable dans l'url /id
+const idAsupprimer=Films_liste.findIndex((film)=>film.id===id);
+if(idAsupprimer=== -1){  return res.sendStatus(404);//page not found
+}
+const deleteFIlm=Films_liste.splice(idAsupprimer,1);
+
 });
 
 export default router;

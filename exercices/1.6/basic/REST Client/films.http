@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:3000
+### Delete a film
+DELETE {{baseUrl}}/films/2
+
+### Update the drink identified by 5
+PATCH {{baseUrl}}/films/5
+Content-Type: application/json
+
+{
+    "title":"Citronnade"
+}
+
+### substituted the film identified by 5
+PUT {{baseUrl}}/films/5
+Content-Type: application/json
+
+{
+    "title": "Talonade",
+    "director": "Lana yoyoyoy, Lilly yoyoyoyoy",
+    "duration": 134,
+    "budget": 190,
+    "description": "film de science fiction",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/en/4/44/Her2013Poster.jpg"
+
+}
