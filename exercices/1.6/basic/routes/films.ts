@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { Film } from "../types"; // Assure-toi que le type Film est bien défini
 import filmsData from "../data/films.json"; // Import the JSON file
-
+import path from "node:path";
+import { parse, serialize } from "../utils/json";
+const jsonDbPath = path.join(__dirname, "/../data/films.json");
 const router = Router();
 
 const Films_liste: Film[] = filmsData as Film[]; // Ensure the imported JSON data is typed correctly
@@ -10,6 +12,7 @@ const Films_liste: Film[] = filmsData as Film[]; // Ensure the imported JSON dat
    GET /films
 */
 router.get("/", (req, res) => {
+  const films = parse(jsonDbPath, Films_liste);
   const minduration = req.query["minimum-duration"] ? Number(req.query["minimum-duration"]) : undefined;
   const nom_film = req.query["titre"] ? String(req.query["titre"]) : undefined;
 
@@ -31,6 +34,7 @@ router.get("/", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
+  const films = parse(jsonDbPath, Films_liste);
   const id = Number(req.params.id);
   const index = Films_liste.findIndex((film) => film.id === id);
   if (index === -1) {
@@ -42,6 +46,7 @@ router.delete("/:id", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   const id = Number(req.params.id);
+  const films = parse(jsonDbPath, Films_liste);
   const film = Films_liste.find((film) => film.id === id);
   if (!film) {
     return res.sendStatus(404);

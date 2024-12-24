@@ -8,4 +8,4 @@ export interface Film {
   imageUrl: string;
 }
 
-export type {Film};
+export default Film;

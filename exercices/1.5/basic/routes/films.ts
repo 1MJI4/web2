@@ -4,6 +4,8 @@ import filmsData from "../data/films.json"; // Import the JSON file
 
 const router = Router();
 
+console.log(filmsData); // Log the imported JSON data to verify its content
+
 const Films_liste: Film[] = filmsData as Film[]; // Ensure the imported JSON data is typed correctly
 
 /* Read all the films from the menu
@@ -74,6 +76,35 @@ router.patch("/:id", (req, res) => {
   }
 
   return res.json(film);
+});
+
+router.put("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const filmIndex = Films_liste.findIndex((film) => film.id === id);
+  if (filmIndex === -1) {
+    return res.sendStatus(404);
+  }
+
+  const body: Film = req.body;
+
+  if (
+    !body ||
+    typeof body !== "object" ||
+    typeof body.title !== "string" ||
+    !body.title.trim() ||
+    typeof body.imageUrl !== "string" ||
+    !body.imageUrl.trim() ||
+    typeof body.duration !== "number" ||
+    body.duration <= 0 ||
+    typeof body.budget !== "number" ||
+    body.budget <= 0
+  ) {
+    return res.sendStatus(400);
+  }
+
+  Films_liste[filmIndex] = { ...Films_liste[filmIndex], ...body };
+
+  return res.json(Films_liste[filmIndex]);
 });
 
 export default router;
